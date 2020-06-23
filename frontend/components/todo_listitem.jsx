@@ -1,5 +1,3 @@
-var React = require('react');
+var React = require("react");
 
-var TodoListItem = React.createClass({
-  
-});
+var TodoListItem = React.createClass({});
