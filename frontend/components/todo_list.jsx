@@ -1,17 +1,16 @@
-var React = require('react');
-var TodoStore = require('../stores/todo_store.js');
+var React = require("react");
+var TodoStore = require("../stores/todo_store.js");
 
 var TodoList = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {
-      list: TodoStore.all()
+      list: TodoStore.all(),
     };
   },
 
   componentDidMount: function () {
     TodoStore.addChangedHandler(this.todosChanged);
     TodoStore.fetch();
-
   },
 
   componentWillUnmount: function () {
@@ -19,25 +18,23 @@ var TodoList = React.createClass({
   },
 
   todosChanged: function () {
-    this.setState( { list: TodoStore.all() });
+    this.setState({ list: TodoStore.all() });
   },
 
-  render: function() {
-    var listElements = function(){
-      return this.state.list.map(function(todo, idx) {
+  render: function () {
+    var listElements = function () {
+      return this.state.list.map(function (todo, idx) {
         // return (<li key={idx}>{todo.title}</li>);
-        return (<TodoListItem todo={todo}>)
+        return <TodoListItem todo={todo} />;
       });
     }.bind(this);
 
     return (
       <div>
-        <ul>
-          {listElements()}
-        </ul>
+        <ul>{listElements()}</ul>
       </div>
     );
-  }
+  },
 });
 
 module.exports = TodoList;

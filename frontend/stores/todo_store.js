@@ -1,23 +1,20 @@
-var   _todos = [],
+var _todos = [],
   _callbacks = [];
 
 var TodoStore = {
-
   all: function () {
     return _todos.slice();
   },
 
   fetch: function () {
-    $.get("api/todos",
-    {},
-    function (data) {
+    $.get("api/todos", {}, function (data) {
       _todos = data;
       TodoStore.changed();
     });
   },
 
-  find: function(id){
-    return _todos.find(function(f){
+  find: function (id) {
+    return _todos.find(function (f) {
       return f.id === id;
     });
   },
@@ -32,10 +29,10 @@ var TodoStore = {
   destroy: function (id) {
     var todo = TodoStore.find(id);
 
-    if (typeof todo !== "undefined"){
+    if (typeof todo !== "undefined") {
       $.ajax({
         url: "api/todos/" + id,
-        type: 'DELETE',
+        type: "DELETE",
         success: function () {
           _todos = _todos.filter(function (f) {
             if (f["id"] !== id) {
@@ -53,12 +50,12 @@ var TodoStore = {
     todo.done = !todo.done;
     $.ajax({
       url: "api/todos/" + id,
-      type: 'PATCH',
+      type: "PATCH",
       success: function () {
         // maybe add a change to _todos
         TodoStore.changed();
       },
-      data: {todo: {title: todo.title, body: todo.body, done: todo.done}}
+      data: { todo: { title: todo.title, body: todo.body, done: todo.done } },
     });
   },
 
@@ -76,7 +73,9 @@ var TodoStore = {
       }
     }
 
-    if (idx === undefined) {return;}
+    if (idx === undefined) {
+      return;
+    }
 
     _callbacks.splice(idx, 1);
   },
@@ -85,7 +84,7 @@ var TodoStore = {
     _callbacks.forEach(function (cb) {
       cb();
     });
-  }
+  },
 };
 
 module.exports = TodoStore;
